@@ -4,14 +4,14 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.TestTools;
-using Byjus.Gamepod.Template.Verticals;
-using Byjus.Gamepod.Template.Controllers;
-using Byjus.Gamepod.Template.Views;
-using Byjus.Gamepod.Template.Util;
+using Byjus.Gamepod.RncStarRealms.Verticals;
+using Byjus.Gamepod.RncStarRealms.Controllers;
+using Byjus.Gamepod.RncStarRealms.Views;
+using Byjus.Gamepod.RncStarRealms.Util;
 using System.IO;
 
 
-namespace Byjus.Gamepod.Template.Tests {
+namespace Byjus.Gamepod.RncStarRealms.Tests {
     public class UtilTest : BaseTestSuite {
 
         [SetUp]

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Byjus.Gamepod.Template.Verticals;
+using Byjus.Gamepod.RncStarRealms.Verticals;
 
-namespace Byjus.Gamepod.Template.Tests {
+namespace Byjus.Gamepod.RncStarRealms.Tests {
     public class BoundingBoxTestSuite : BaseTestSuite {
         [Test]
         public void TestWithCamera() {

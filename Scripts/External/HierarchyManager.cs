@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using Byjus.Gamepod.Template.Controllers;
-using Byjus.Gamepod.Template.Views;
-using Byjus.Gamepod.Template.Verticals;
+using Byjus.Gamepod.RncStarRealms.Controllers;
+using Byjus.Gamepod.RncStarRealms.Views;
+using Byjus.Gamepod.RncStarRealms.Verticals;
 
-namespace Byjus.Gamepod.Template.Externals {
+namespace Byjus.Gamepod.RncStarRealms.Externals {
     /// <summary>
     /// Since there are controllers (non-monobehaviors) involved, we can't just directly assign references
     /// So, this class is used which manages all reference assigning

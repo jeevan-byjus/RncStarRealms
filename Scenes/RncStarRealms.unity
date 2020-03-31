@@ -278,12 +278,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b3cc7e01e8c944bcbb393b19e4198991, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
+  m_Sprite: {fileID: 21300000, guid: 541f0a33cc16c4034bf5ec1fe12a8e3d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 47, y: 47}
+  m_Size: {x: 73.04555, y: 48.72138}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -350,9 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27635340fc2d54ec9b8f9ab68858499c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mManager: {fileID: 0}
-  osmoVisionServiceView: {fileID: 0}
-  hierarchyManager: {fileID: 0}
 --- !u!114 &233337676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282591e90a7ea4446b4f1750abb43aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hierarchyManager: {fileID: 0}
 --- !u!1 &320093749
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,8 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c3255708dc14017a91fa9fd0f9d43f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPersistenceTime_: 0.5
-  maxPersistenceFrames_: 4
 --- !u!114 &759177798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,14 +542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fd03622d60847e8a7d9f987713141a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey_: 00000000-0000-0000-0000-000000000000
-  deck_: {fileID: 11400000, guid: 6b54f89e4ae084e49808b9b36cdb8c55, type: 2}
-  customFiltering_: 0
-  registerDeckOnStartup_: 1
-  visionParserService_: {fileID: 759177795}
-  clusterService_: {fileID: 0}
-  objectMatcher_: {fileID: 759177798}
-  objectPersister_: {fileID: 759177797}
 --- !u!114 &759177800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,18 +566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79991fde551747368c8d454652c7fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onScreenDrawerTouchCountToggle_: 3
-  allowOnDevice_: 0
-  onScreenZ_: -512
-  kBuffer: 10
-  onScreenDrawerKeyToggle_: 120
-  rotateLeft_: 276
-  rotateRight_: 275
-  playButton_: 32
-  dirUp_: 273
-  dirDown_: 274
-  dirRight_: 275
-  dirLeft_: 276
 --- !u!4 &759177802
 Transform:
   m_ObjectHideFlags: 0
@@ -633,13 +609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa17383bf76ab433cb202f79dd43da06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnSettingsButtonClick:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGameUnload:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerStates: []
 --- !u!4 &1296694477
 Transform:
   m_ObjectHideFlags: 0
@@ -841,6 +810,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88875829c1fc34de896dc4f3565f207d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackerStartPos: {x: 0, y: -17}
+  attackerStep: {x: 2.5, y: 5}
+  defenseStartPos: {x: 0, y: -9}
+  defenseStep: {x: 0, y: 3}
+  defenseSizeInc: {x: 2, y: 0}
+  attackerPrefab: {fileID: 4968285561788234081, guid: c135edbd32be745bc9725beaa7b931ee,
+    type: 3}
+  defensePrefab: {fileID: 4450756208288024835, guid: 2acd54393c10d46d692b5135521e37eb,
+    type: 3}
 --- !u!4 &1957267775
 Transform:
   m_ObjectHideFlags: 0

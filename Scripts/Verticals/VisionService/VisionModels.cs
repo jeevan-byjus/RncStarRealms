@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Byjus.Gamepod.Template.Util;
+using Byjus.Gamepod.RncStarRealms.Util;
 
-namespace Byjus.Gamepod.Template.Verticals {
+namespace Byjus.Gamepod.RncStarRealms.Verticals {
 
     [Serializable]
     public class JOutput {

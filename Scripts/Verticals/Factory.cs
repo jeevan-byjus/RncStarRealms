@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using Byjus.Gamepod.Template.Externals;
+using Byjus.Gamepod.RncStarRealms.Externals;
 
-namespace Byjus.Gamepod.Template.Verticals {
+namespace Byjus.Gamepod.RncStarRealms.Verticals {
     public class Factory {
         static IVisionService visionService;
 

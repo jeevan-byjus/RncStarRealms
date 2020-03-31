@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Byjus.Gamepod.Template.Verticals {
+namespace Byjus.Gamepod.RncStarRealms.Verticals {
     /// <summary>
     /// Standalone variant of the Vision Service
     /// Generates random number of blue and red cubes in a range when queried for objects
@@ -14,8 +14,8 @@ namespace Byjus.Gamepod.Template.Verticals {
         }
 
         public List<ExtInput> GetVisionObjects() {
-            var numRed = Random.Range(0, 5);
-            var numBlue = Random.Range(0, 5);
+            var numRed = Random.Range(0, 20);
+            var numBlue = Random.Range(0, 0);
 
             var ret = new List<ExtInput>();
             for (int i = 0; i < numBlue; i++) {

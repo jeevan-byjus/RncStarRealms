@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Byjus.Gamepod.Template.Util;
+using Byjus.Gamepod.RncStarRealms.Util;
 using UnityEngine;
-using Byjus.Gamepod.Template.Externals;
+using Byjus.Gamepod.RncStarRealms.Externals;
 
 #if !CC_STANDALONE
-namespace Byjus.Gamepod.Template.Verticals {
+namespace Byjus.Gamepod.RncStarRealms.Verticals {
 
     /// <summary>
     /// Editor implementation of Vision Service
