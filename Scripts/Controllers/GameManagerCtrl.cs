@@ -6,18 +6,64 @@ using System.Collections.Generic;
 namespace Byjus.Gamepod.RncStarRealms.Controllers {
     public class GameManagerCtrl : IGameManagerCtrl, IExtInputListener {
         public IGameManagerView view;
-        List<Ship> shipsInPlay;
-        const int maxInLine = 10;
-        int xMinIndex;
-        int xMaxIndex;
-        int yIndex;
-        int defenseYIndex;
+
+        Player player;
+        Player ai;
+
+        bool playerTurn;
+        List<Vector2> aiActions;
+        int turnNumber;
 
         public void Init() {
-            shipsInPlay = new List<Ship>();
-            xMinIndex = 0;
-            xMaxIndex = 0;
-            yIndex = 0;
+            player = new Player();
+            player.turnTime = 60;
+
+            ai = new Player();
+            ai.turnTime = 5;
+
+            playerTurn = false;
+
+            aiActions = new List<Vector2> {
+                new Vector2(1, 0),
+                new Vector2(1, 5),
+                new Vector2(0, 8),
+                new Vector2(0, 7),
+                new Vector2(1, 0),
+                new Vector2(0, 5),
+                new Vector2(1, 5),
+                new Vector2(0, 10)
+            };
+
+            turnNumber = 0;
+            DoAITurn();
+        }
+
+        void DoAITurn() {
+            foreach (var ship in ai.ships) {
+                if (ship.type == ShipType.ATTACK) { RemoveAttack(ai, false); } else { RemoveDefense(ai, false); }
+            }
+
+            var num = aiActions[turnNumber % aiActions.Count];
+
+            for (int i = 0; i < num.x; i++) {
+                CreateDefense(ai, false);
+            }
+
+            for (int i = 0; i < num.y; i++) {
+                CreateAttack(ai, false);
+            }
+
+            view.Wait(ai.turnTime, () => {
+                playerTurn = true;
+                view.StartPlayerTurn(player.turnTime);
+            });
+        }
+
+        public void PlayerTurnEnded() {
+            playerTurn = false;
+
+            turnNumber++;
+            DoAITurn();
         }
 
         public void OnInputStart() {
@@ -29,117 +75,56 @@ namespace Byjus.Gamepod.RncStarRealms.Controllers {
         }
 
         public void OnRedCubeAdded() {
-            Debug.LogError("Starting with red cube: xmin: " + xMinIndex + ", xmax: " + xMaxIndex + ", y: " + yIndex);
-            if (xMaxIndex * 2 == maxInLine) {
-                yIndex++;
-                xMaxIndex = 0;
-                xMinIndex = 0;
-            }
-
-            if (-xMinIndex <= xMaxIndex) {
-                xMinIndex--;
-                view.CreateAttacker(xMinIndex, yIndex, (go) => {
-                    shipsInPlay.Add(new Ship {
-                        go = go,
-                        type = ShipType.ATTACK,
-                        xIndex = xMinIndex,
-                        yIndex = yIndex
-                    });
-                });
-            } else {
-                xMaxIndex++;
-                view.CreateAttacker(xMaxIndex, yIndex, (go) => {
-                    shipsInPlay.Add(new Ship {
-                        go = go,
-                        type = ShipType.ATTACK,
-                        xIndex = xMaxIndex,
-                        yIndex = yIndex
-                    });
-                });
-            }
-
-            Debug.LogError("Ending with red cube: xmin: " + xMinIndex + ", xmax: " + xMaxIndex + ", y: " + yIndex);
+            if (!playerTurn) { return; }
+            CreateAttack(player, true);
         }
 
         public void OnRedCubeRemoved() {
-            int toFindX = 0;
-            if (-xMinIndex <= xMaxIndex) {
-                toFindX = xMaxIndex;
-            } else {
-                toFindX = xMinIndex;
-            }
-
-            var shipInd = shipsInPlay.FindIndex(x => x.type == ShipType.ATTACK && x.yIndex == yIndex && (x.xIndex == toFindX));
-            if (shipInd == -1) {
-                Debug.LogError("No attack ship to remove");
-                return;
-            }
-
-            var ship = shipsInPlay[shipInd];
-            view.DestroyShip(ShipType.ATTACK, ship.go, () => {
-                if (ship.xIndex == xMinIndex) {
-                    xMinIndex++;
-                } else {
-                    xMaxIndex--;
-                }
-
-                if (xMaxIndex == 0 && xMinIndex == 0) {
-                    if (yIndex > 0) {
-                        yIndex--;
-
-                        if (yIndex >= 0) {
-                            xMaxIndex = maxInLine / 2;
-                            xMinIndex = -maxInLine / 2;
-                        }
-
-                    } else {
-
-                    }
-                }
-
-                shipsInPlay.RemoveAt(shipInd);
-                Debug.LogError("Destroying after cube: xmin: " + xMinIndex + ", xmax: " + xMaxIndex + ", y: " + yIndex);
-            });
+            if (!playerTurn) { return; }
+            RemoveAttack(player, true);
         }
 
         public void OnBlueRodAdded() {
-            view.CreateDefense(0, defenseYIndex, (go) => {
-                shipsInPlay.Add(new Ship {
-                    go = go,
-                    type = ShipType.DEFENSE,
-                    xIndex = 0,
-                    yIndex = defenseYIndex
-                });
-
-                defenseYIndex++;
-            });
+            if (!playerTurn) { return; }
+            CreateDefense(player, true);
         }
 
         public void OnBlueRodRemoved() {
-            var toRemoveInd = shipsInPlay.FindIndex(x => x.type == ShipType.DEFENSE && x.yIndex == defenseYIndex - 1);
-            if (toRemoveInd == -1) {
-                Debug.LogError("No defense to remove");
-                return;
-            }
-
-            var ship = shipsInPlay[toRemoveInd];
-            view.DestroyShip(ShipType.DEFENSE, ship.go, () => {
-                defenseYIndex--;
-                shipsInPlay.RemoveAt(toRemoveInd);
-            });
+            if (!playerTurn) { return; }
+            RemoveDefense(player, true);
         }
-    }
 
-    public enum ShipType { ATTACK, DEFENSE }
 
-    public class Ship {
-        public ShipType type;
-        public int xIndex;
-        public int yIndex;
-        public GameObject go;
+        void CreateAttack(Player pl, bool isPlayer) {
+            int playerXMin = pl.attXMin;
+            int playerXMax = pl.attXMax;
+            var ship = pl.AddAttack();
+
+            if (playerXMin != pl.attXMin) {
+                view.CreateAttacker(isPlayer, pl.attXMin, pl.attY, (go) => { ship.go = go; });
+            } else {
+                view.CreateAttacker(isPlayer, pl.attXMax, pl.attY, (go) => { ship.go = go; });
+            }
+        }
+
+        void RemoveAttack(Player pl, bool isPlayer) {
+            var ship = pl.RemoveAttack();
+            view.DestroyShip(true, ShipType.ATTACK, ship.go, () => { });
+        }
+
+        void CreateDefense(Player pl, bool isPlayer) {
+            var ship = pl.AddDefense();
+            view.CreateDefense(isPlayer, ship.xIndex, ship.yIndex, (go) => { ship.go = go; });
+        }
+
+        void RemoveDefense(Player pl, bool isPlayer) {
+            var ship = pl.RemoveDefense();
+            view.DestroyShip(true, ShipType.DEFENSE, ship.go, () => { });
+        }
     }
 
     public interface IGameManagerCtrl {
         void Init();
+        void PlayerTurnEnded();
     }
 }

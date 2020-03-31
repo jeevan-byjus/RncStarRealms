@@ -22,12 +22,10 @@ namespace Byjus.Gamepod.RncStarRealms.Verticals {
 
             var ret = new List<ExtInput>();
             foreach (var obj in aliveObjs) {
-                var pos = GetWorldPos(new Vector2(obj.Location.X, obj.Location.Y));
-
                 if (obj.Id < 10) {
-                    ret.Add(new ExtInput { id = obj.Id, type = TileType.BLUE_ROD, position = pos });
+                    ret.Add(new ExtInput { id = obj.Id, type = TileType.BLUE_ROD });
                 } else {
-                    ret.Add(new ExtInput { id = obj.Id, type = TileType.RED_CUBE, position = pos });
+                    ret.Add(new ExtInput { id = obj.Id, type = TileType.RED_CUBE });
                 }
             }
             return ret;
