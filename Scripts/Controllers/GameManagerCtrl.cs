@@ -69,7 +69,7 @@ namespace Byjus.Gamepod.RncStarRealms.Controllers {
                 toFindX = xMinIndex;
             }
 
-            var shipInd = shipsInPlay.FindIndex(x => x.yIndex == yIndex && (x.xIndex == toFindX));
+            var shipInd = shipsInPlay.FindIndex(x => x.type == ShipType.ATTACK && x.yIndex == yIndex && (x.xIndex == toFindX));
             if (shipInd == -1) {
                 Debug.LogError("No attack ship to remove");
                 return;
@@ -103,11 +103,30 @@ namespace Byjus.Gamepod.RncStarRealms.Controllers {
         }
 
         public void OnBlueRodAdded() {
+            view.CreateDefense(0, defenseYIndex, (go) => {
+                shipsInPlay.Add(new Ship {
+                    go = go,
+                    type = ShipType.DEFENSE,
+                    xIndex = 0,
+                    yIndex = defenseYIndex
+                });
 
+                defenseYIndex++;
+            });
         }
 
         public void OnBlueRodRemoved() {
+            var toRemoveInd = shipsInPlay.FindIndex(x => x.type == ShipType.DEFENSE && x.yIndex == defenseYIndex - 1);
+            if (toRemoveInd == -1) {
+                Debug.LogError("No defense to remove");
+                return;
+            }
 
+            var ship = shipsInPlay[toRemoveInd];
+            view.DestroyShip(ShipType.DEFENSE, ship.go, () => {
+                defenseYIndex--;
+                shipsInPlay.RemoveAt(toRemoveInd);
+            });
         }
     }
 

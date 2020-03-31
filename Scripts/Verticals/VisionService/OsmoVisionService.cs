@@ -45,17 +45,20 @@ namespace Byjus.Gamepod.RncStarRealms.Verticals {
 
             var ret = new List<ExtInput>();
             int numBlues = 0, numReds = 0;
-            foreach (var item in output.items) {
-                var pos = visionBoundingBox.GetScreenPoint(CameraUtil.MainDimens(), item.pt);
-                pos = PosAdjustments(pos);
 
+            foreach (var item in output.items) {
                 if (string.Equals(item.color, "blue")) {
-                    var it = new ExtInput { id = 100 + numBlues++, type = TileType.BLUE_ROD, position = pos };
-                    ret.Add(it);
+                    numBlues++;
                 } else if (string.Equals(item.color, "red")) {
-                    var it = new ExtInput { id = 1000 + numReds++, type = TileType.RED_CUBE, position = pos };
+                    var it = new ExtInput { id = 1000 + numReds++, type = TileType.RED_CUBE };
                     ret.Add(it);
                 }
+            }
+
+            numBlues = Mathf.CeilToInt(numBlues / 10);
+            for (int i = 0; i < numBlues; i++) {
+                var it = new ExtInput { id = 100 + i, type = TileType.BLUE_ROD };
+                ret.Add(it);
             }
 
             return ret;

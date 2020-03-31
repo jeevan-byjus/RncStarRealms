@@ -17,18 +17,16 @@ namespace Byjus.Gamepod.RncStarRealms.Verticals {
     public class ExtInput {
         public TileType type;
         public int id;
-        public Vector2 position;
 
         public ExtInput() { }
 
-        public ExtInput(TileType type, int id, Vector2 position) {
+        public ExtInput(TileType type, int id) {
             this.type = type;
             this.id = id;
-            this.position = position;
         }
 
         public override string ToString() {
-            return id + ", " + type + ", (" + position.x + ", " + position.y + ")";
+            return id + ", " + type;
         }
     }
 }
